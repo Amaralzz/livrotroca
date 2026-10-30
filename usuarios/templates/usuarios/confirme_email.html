@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titulo %}Confirme seu e-mail · LivroTroca{% endblock %}
+{% block conteudo %}
+<h1>Confirme seu e-mail</h1>
+<p>Enviamos um link de confirmação para o seu e-mail. Sua conta só é ativada depois que você clicar nele.</p>
+<h2>Não recebeu?</h2>
+<form method="post" class="formulario">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="botao">Reenviar link</button>
+</form>
+{% endblock %}

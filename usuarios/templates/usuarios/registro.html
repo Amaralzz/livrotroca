@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titulo %}Criar conta · LivroTroca{% endblock %}
+{% block conteudo %}
+<h1>Criar conta</h1>
+<form method="post" class="formulario" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="botao">Criar conta</button>
+</form>
+<p class="dica">Seu campus ou bairro é usado só para buscar livros por proximidade.</p>
+<p class="dica">Já tem conta? <a href="{% url 'entrar' %}">Entrar</a> · Não recebeu o e-mail? <a href="{% url 'confirme_email' %}">Reenviar link</a></p>
+{% endblock %}

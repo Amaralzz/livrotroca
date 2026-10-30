@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block titulo %}Link inválido · LivroTroca{% endblock %}
+{% block conteudo %}
+<h1>Link inválido ou expirado</h1>
+<p>Este link de confirmação não é válido, já foi usado ou expirou.</p>
+<p><a class="botao" href="{% url 'confirme_email' %}">Pedir um novo link</a></p>
+{% endblock %}

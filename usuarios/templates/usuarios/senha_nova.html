@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block titulo %}Nova senha · LivroTroca{% endblock %}
+{% block conteudo %}
+{% if validlink %}
+    <h1>Criar nova senha</h1>
+    <form method="post" class="formulario" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="botao">Salvar nova senha</button>
+    </form>
+{% else %}
+    <h1>Link inválido ou expirado</h1>
+    <p>Este link já foi usado ou passou do prazo de 30 minutos.</p>
+    <p><a class="botao" href="{% url 'senha_recuperar' %}">Pedir um novo link</a></p>
+{% endif %}
+{% endblock %}

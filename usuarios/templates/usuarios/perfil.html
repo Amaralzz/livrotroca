@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block titulo %}{{ pessoa.username }} · LivroTroca{% endblock %}
+{% block conteudo %}
+<section class="perfil">
+    <div class="avatar" aria-hidden="true">{{ pessoa.username|slice:":2"|upper }}</div>
+    <div>
+        <h1>{{ pessoa.username }}</h1>
+        <p class="autor">{{ pessoa.get_localizacao_display }}</p>
+    </div>
+</section>
+
+<h2>Livros anunciados</h2>
+{% for livro in anunciados %}
+    {% include "catalogo/_cartao_livro.html" %}
+{% empty %}
+    <p class="vazio">Nenhum livro anunciado no momento.</p>
+{% endfor %}
+
+<h2>Doações realizadas</h2>
+{% for livro in doacoes %}
+    <div class="cartao estatico">
+        <div class="capa" aria-hidden="true"></div>
+        <div class="corpo">
+            <strong class="titulo">{{ livro.titulo }}</strong>
+            <span class="autor">{{ livro.autor }}</span>
+            <span class="etiquetas"><span class="etiqueta status-doado">Doado</span></span>
+        </div>
+    </div>
+{% empty %}
+    <p class="vazio">Nenhuma doação ainda.</p>
+{% endfor %}
+{% endblock %}
