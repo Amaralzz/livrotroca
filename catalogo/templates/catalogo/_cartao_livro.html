@@ -1,0 +1,12 @@
+<a class="cartao" href="{% url 'catalogo:detalhe' livro.pk %}">
+    <div class="capa" aria-hidden="true"></div>
+    <div>
+        <strong class="titulo">{{ livro.titulo }}</strong>
+        <span class="autor">{{ livro.autor }}</span>
+        <span class="etiquetas">
+            <span class="etiqueta {{ livro.modalidade }}">{{ livro.get_modalidade_display }}</span>
+            {% if livro.status != "disponivel" %}<span class="etiqueta status-{{ livro.status }}">{{ livro.get_status_display }}</span>{% endif %}
+            <span class="local">{{ livro.dono.get_localizacao_display }}</span>
+        </span>
+    </div>
+</a>

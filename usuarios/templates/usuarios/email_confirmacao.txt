@@ -1,0 +1,6 @@
+Olá, {{ usuario.username }}!
+
+Clique no link abaixo para confirmar sua conta no LivroTroca:
+{{ link }}
+
+Se você não criou esta conta, ignore este e-mail.

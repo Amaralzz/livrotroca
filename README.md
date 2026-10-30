@@ -1,0 +1,60 @@
+# LivroTroca
+
+Plataforma P2P de empréstimo e doação de livros entre estudantes da Unimontes e vizinhos de Montes Claros.
+Projeto da disciplina de Gerência de Processo de Software (Unimontes, 2026).
+
+## Sprint 1 (06/10 a 06/11/2026)
+
+| Item | Funcionalidade | Onde está |
+| --- | --- | --- |
+| E8-01 | Projeto Django + MySQL | `config/` |
+| E8-02 | Celery + Celery Beat e SMTP | `config/celery.py`, `emprestimos/tasks.py`, `config/settings.py` |
+| E1-01 | Cadastro com contato, localização e consentimento LGPD | `usuarios/forms.py`, `usuarios/views.py` |
+| E1-02 | Confirmação de e-mail | `usuarios/tokens.py`, `usuarios/views.py` |
+| E1-03 | Login (usuário ou e-mail) e logout | `usuarios/backends.py`, `usuarios/forms.py` |
+| E1-05 | Recuperação de senha (link de 30 min, uso único) | `usuarios/urls.py` |
+| E2-01 | Cadastro de livro (máx. 20 ativos) | `catalogo/` |
+| E3-01 | Busca por título ou autor | `catalogo/views.py` |
+
+Gerenciar livro, empréstimo, prazo e doação ficam para a Sprint 2. HTTPS (E8-05) fica para a Sprint 5, junto do deploy.
+
+## Como rodar (Windows)
+
+```
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env        # depois preencha os valores do banco
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+Acesse http://127.0.0.1:8000. Sem SMTP configurado, os e-mails aparecem no terminal.
+
+O Django 5.2 exige MySQL 8 ou MariaDB 10.5+. O XAMPP traz o MariaDB 10.4, que não é aceito: para testar só na sua máquina, coloque `DB_ENGINE=sqlite` no `.env`.
+
+## Testes
+
+```
+python manage.py test
+```
+
+O usuário do MySQL precisa de permissão para criar o banco de testes.
+
+## Celery (tarefas agendadas)
+
+O Celery precisa de um Redis rodando (no Windows: Memurai, WSL ou Docker com `docker run -p 6379:6379 redis`).
+Em dois terminais:
+
+```
+celery -A config worker --pool=solo -l info
+celery -A config beat -l info
+```
+
+A tarefa de teste `verificar_agendador` roda a cada 15 minutos. As tarefas de expiração de reservas (E4-03) e de atraso (E5-02) entram na Sprint 2.
+
+## E-mail real (SMTP)
+
+No `.env`, troque `EMAIL_BACKEND` por `django.core.mail.backends.smtp.EmailBackend` e preencha `EMAIL_HOST_USER` e `EMAIL_HOST_PASSWORD`.
+No Gmail, use uma "senha de app", não a senha da conta.

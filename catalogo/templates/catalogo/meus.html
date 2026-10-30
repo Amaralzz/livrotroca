@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titulo %}Meus livros · LivroTroca{% endblock %}
+{% block conteudo %}
+<h1>Meus livros</h1>
+<p class="contador">{{ ativos }} de {{ limite }} livros ativos</p>
+<p><a class="botao" href="{% url 'catalogo:novo' %}">+ Adicionar livro</a></p>
+
+{% for livro in livros %}
+    <div class="cartao estatico">
+        <div class="capa" aria-hidden="true"></div>
+        <div class="corpo">
+            <strong class="titulo"><a href="{% url 'catalogo:detalhe' livro.pk %}">{{ livro.titulo }}</a></strong>
+            <span class="autor">{{ livro.autor }}</span>
+            <span class="etiquetas">
+                <span class="etiqueta {{ livro.modalidade }}">{{ livro.get_modalidade_display }}</span>
+                <span class="etiqueta status-{{ livro.status }}">{{ livro.get_status_display }}</span>
+            </span>
+        </div>
+    </div>
+{% empty %}
+    <p class="vazio">Você ainda não cadastrou livros.</p>
+{% endfor %}
+{% endblock %}
