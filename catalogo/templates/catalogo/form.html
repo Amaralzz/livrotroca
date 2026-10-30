@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block titulo %}{{ titulo_pagina }} · LivroTroca{% endblock %}
+{% block conteudo %}
+<h1>{{ titulo_pagina }}</h1>
+<form method="post" class="formulario" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="dica">Você poderá aprovar cada pedido antes de confirmá-lo.</p>
+    <button type="submit" class="botao">{{ botao }}</button>
+</form>
+{% endblock %}
