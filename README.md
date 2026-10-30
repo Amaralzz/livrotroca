@@ -32,6 +32,8 @@ python manage.py runserver
 
 Acesse http://127.0.0.1:8000. Sem SMTP configurado, os e-mails aparecem no terminal.
 
+O Django 5.2 exige MySQL 8 ou MariaDB 10.5+. O XAMPP traz o MariaDB 10.4, que não é aceito: para testar só na sua máquina, coloque `DB_ENGINE=sqlite` no `.env`.
+
 ## Testes
 
 ```
