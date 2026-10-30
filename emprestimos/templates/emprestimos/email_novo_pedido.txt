@@ -1,0 +1,7 @@
+{% autoescape off %}Olá, {{ pedido.livro.dono.username }}!
+
+{{ pedido.solicitante.username }} pediu {% if pedido.eh_doacao %}a doação{% else %}o empréstimo{% endif %} do seu livro "{{ pedido.livro.titulo }}".
+
+O livro fica reservado até você aprovar ou recusar o pedido:
+{{ link }}
+{% endautoescape %}

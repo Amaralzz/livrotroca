@@ -1,0 +1,43 @@
+<div class="cartao estatico">
+    <div class="capa" aria-hidden="true"></div>
+    <div class="corpo">
+        <strong class="titulo">{{ pedido.livro.titulo }}</strong>
+        <span class="autor">
+            {{ pedido.get_modalidade_display }} ·
+            {% if papel == "dono" %}pedido por {{ pedido.solicitante.username }}{% else %}de {{ pedido.livro.dono.username }}{% endif %}
+            · {{ pedido.criado_em|date:"d/m/Y" }}
+        </span>
+        <span class="etiquetas"><span class="etiqueta">{{ pedido.get_status_display }}</span></span>
+
+        {% if pedido.data_limite %}
+            <p class="prazo">Devolução até {{ pedido.data_limite|date:"d/m/Y" }}</p>
+        {% elif pedido.eh_doacao and pedido.status == "aprovado" %}
+            <p class="prazo">Aguardando a entrega da doação</p>
+        {% endif %}
+
+        {% if pedido.contato_liberado %}
+            {% if papel == "dono" %}
+                <p class="contato">Contato de {{ pedido.solicitante.username }}: WhatsApp {{ pedido.solicitante.whatsapp }} · {{ pedido.solicitante.email }}</p>
+            {% else %}
+                <p class="contato">Contato de {{ pedido.livro.dono.username }}: WhatsApp {{ pedido.livro.dono.whatsapp }} · {{ pedido.livro.dono.email }}</p>
+            {% endif %}
+        {% endif %}
+
+        {% if papel == "dono" %}
+            <div class="acoes">
+                {% if pedido.status == "pendente" %}
+                    <form method="post" action="{% url 'emprestimos:aprovar' pedido.pk %}" class="inline">
+                        {% csrf_token %}<button type="submit" class="link">Aprovar</button>
+                    </form>
+                    <form method="post" action="{% url 'emprestimos:recusar' pedido.pk %}" class="inline">
+                        {% csrf_token %}<button type="submit" class="link">Recusar</button>
+                    </form>
+                {% elif pedido.eh_doacao and pedido.status == "aprovado" %}
+                    <form method="post" action="{% url 'emprestimos:confirmar_entrega' pedido.pk %}" class="inline">
+                        {% csrf_token %}<button type="submit" class="link">Confirmar entrega</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>

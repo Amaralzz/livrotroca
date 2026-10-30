@@ -1,0 +1,12 @@
+{% autoescape off %}Olá, {{ pedido.solicitante.username }}!
+{% if pedido.status == "aprovado" %}
+Seu pedido do livro "{{ pedido.livro.titulo }}" foi aprovado por {{ pedido.livro.dono.username }}.
+{% if pedido.data_limite %}O prazo de devolução é {{ pedido.data_limite|date:"d/m/Y" }} (14 dias a partir de hoje).{% else %}Combine a entrega da doação com o doador.{% endif %}
+
+Contato de {{ pedido.livro.dono.username }}: WhatsApp {{ pedido.livro.dono.whatsapp }} · {{ pedido.livro.dono.email }}
+{% else %}
+Seu pedido do livro "{{ pedido.livro.titulo }}" foi recusado pelo dono.
+{% endif %}
+Acompanhe seus pedidos em:
+{{ link }}
+{% endautoescape %}
