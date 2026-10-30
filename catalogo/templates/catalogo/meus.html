@@ -15,22 +15,6 @@
                 <span class="etiqueta {{ livro.modalidade }}">{{ livro.get_modalidade_display }}</span>
                 <span class="etiqueta status-{{ livro.status }}">{{ livro.get_status_display }}</span>
             </span>
-            <div class="acoes">
-                {% if livro.pode_editar %}<a href="{% url 'catalogo:editar' livro.pk %}">Editar</a>{% endif %}
-                {% if livro.pode_retirar %}
-                    <form method="post" action="{% url 'catalogo:retirar' livro.pk %}" class="inline">
-                        {% csrf_token %}<button type="submit" class="link">Retirar anúncio</button>
-                    </form>
-                {% endif %}
-                {% if livro.status == "retirado" %}
-                    <form method="post" action="{% url 'catalogo:republicar' livro.pk %}" class="inline">
-                        {% csrf_token %}<button type="submit" class="link">Publicar de novo</button>
-                    </form>
-                {% endif %}
-                {% if livro.status == "reservado" or livro.status == "emprestado" %}
-                    <a href="{% url 'emprestimos:painel' %}">Ver pedido</a>
-                {% endif %}
-            </div>
         </div>
     </div>
 {% empty %}

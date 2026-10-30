@@ -69,52 +69,6 @@ class CadastroLivroTests(TestCase):
         self.assertEqual(resposta.status_code, 302)
 
 
-class GerenciarLivroTests(TestCase):
-    """E2-03 · Editar, remover e gerenciar status do meu livro."""
-
-    def setUp(self):
-        self.dono = criar_usuario("joao")
-        self.livro = criar_livro(self.dono)
-        self.client.force_login(self.dono)
-
-    def test_edita_livro_disponivel(self):
-        self.client.post(reverse("catalogo:editar", args=[self.livro.pk]), dict(DADOS_LIVRO))
-        self.livro.refresh_from_db()
-        self.assertEqual(self.livro.titulo, "Vidas Secas")
-
-    def test_edicao_bloqueada_durante_emprestimo(self):
-        for status in (Livro.Status.RESERVADO, Livro.Status.EMPRESTADO, Livro.Status.DOADO):
-            Livro.objects.filter(pk=self.livro.pk).update(status=status)
-            self.client.post(reverse("catalogo:editar", args=[self.livro.pk]), dict(DADOS_LIVRO))
-            self.livro.refresh_from_db()
-            self.assertEqual(self.livro.titulo, "Dom Casmurro")
-
-    def test_retirar_so_livro_disponivel(self):
-        Livro.objects.filter(pk=self.livro.pk).update(status=Livro.Status.EMPRESTADO)
-        self.client.post(reverse("catalogo:retirar", args=[self.livro.pk]))
-        self.livro.refresh_from_db()
-        self.assertEqual(self.livro.status, Livro.Status.EMPRESTADO)
-
-        Livro.objects.filter(pk=self.livro.pk).update(status=Livro.Status.DISPONIVEL)
-        self.client.post(reverse("catalogo:retirar", args=[self.livro.pk]))
-        self.livro.refresh_from_db()
-        self.assertEqual(self.livro.status, Livro.Status.RETIRADO)
-
-    def test_republicar_livro_retirado(self):
-        Livro.objects.filter(pk=self.livro.pk).update(status=Livro.Status.RETIRADO)
-        self.client.post(reverse("catalogo:republicar", args=[self.livro.pk]))
-        self.livro.refresh_from_db()
-        self.assertEqual(self.livro.status, Livro.Status.DISPONIVEL)
-
-    def test_outro_membro_nao_gerencia(self):
-        self.client.force_login(criar_usuario("intruso"))
-        self.assertEqual(self.client.get(reverse("catalogo:editar", args=[self.livro.pk])).status_code, 404)
-        self.assertEqual(self.client.post(reverse("catalogo:retirar", args=[self.livro.pk])).status_code, 404)
-
-    def test_retirar_exige_post(self):
-        self.assertEqual(self.client.get(reverse("catalogo:retirar", args=[self.livro.pk])).status_code, 405)
-
-
 class BuscaTests(TestCase):
     """E3-01 · Buscar livros por título ou autor."""
 
@@ -153,18 +107,19 @@ class BuscaTests(TestCase):
 
 class DetalheLivroTests(TestCase):
     def setUp(self):
-        self.livro = criar_livro(criar_usuario("joao"), conservacao="regular")
+        self.dono = criar_usuario("joao")
+        self.livro = criar_livro(self.dono)
 
-    def test_visitante_nao_ve_conservacao(self):
+    def test_visitante_ve_a_ficha_do_livro(self):
         resposta = self.client.get(reverse("catalogo:detalhe", args=[self.livro.pk]))
-        self.assertNotContains(resposta, "Regular")
-        self.assertContains(resposta, "Entre para pedir")
+        self.assertContains(resposta, "Dom Casmurro")
+        self.assertContains(resposta, "Campus I - Unimontes Montes Claros")
+        self.assertContains(resposta, "Cadastre-se")
 
-    def test_membro_ve_conservacao_e_botao(self):
-        self.client.force_login(criar_usuario("maria"))
+    def test_dono_ve_atalho_para_meus_livros(self):
+        self.client.force_login(self.dono)
         resposta = self.client.get(reverse("catalogo:detalhe", args=[self.livro.pk]))
-        self.assertContains(resposta, "Regular")
-        self.assertContains(resposta, "Pedir emprestado")
+        self.assertContains(resposta, "Ver em Meus livros")
 
     def test_livro_doado_nao_abre_para_outros(self):
         Livro.objects.filter(pk=self.livro.pk).update(status=Livro.Status.DOADO)

@@ -49,6 +49,4 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(template_name="usuarios/senha_alterada.html"),
         name="senha_alterada",
     ),
-    # Perfil público
-    path("perfil/<str:username>/", views.perfil, name="perfil"),
 ]

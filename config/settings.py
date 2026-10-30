@@ -128,14 +128,3 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": timedelta(minutes=15),
     },
 }
-
-# Segurança de transmissão em produção (E8-05 / RNF03)
-if not DEBUG:
-    SECURE_SSL_REDIRECT = config("SECURE_SSL_REDIRECT", default=True, cast=bool)
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_SECONDS = config("SECURE_HSTS_SECONDS", default=3600, cast=int)
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    # O domínio não será enviado à lista de preload dos navegadores
-    SILENCED_SYSTEM_CHECKS = ["security.W021"]

@@ -11,7 +11,7 @@
         <a class="marca" href="{% url 'catalogo:busca' %}">LivroTroca</a>
         <div class="conta">
             {% if user.is_authenticated %}
-                <a href="{% url 'perfil' user.username %}">{{ user.username }}</a>
+                <span>{{ user.username }}</span>
                 <form method="post" action="{% url 'sair' %}" class="inline">
                     {% csrf_token %}
                     <button type="submit" class="link">Sair</button>
@@ -37,7 +37,6 @@
     <nav class="abas" aria-label="Navegação principal">
         <a href="{% url 'catalogo:busca' %}">Buscar</a>
         <a href="{% url 'catalogo:meus' %}">Meus livros</a>
-        <a href="{% url 'emprestimos:painel' %}">Empréstimos</a>
     </nav>
 </body>
 </html>

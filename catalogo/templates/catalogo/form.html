@@ -5,7 +5,6 @@
 <form method="post" class="formulario" novalidate>
     {% csrf_token %}
     {{ form.as_p }}
-    <p class="dica">Você poderá aprovar cada pedido antes de confirmá-lo.</p>
     <button type="submit" class="botao">{{ botao }}</button>
 </form>
 {% endblock %}

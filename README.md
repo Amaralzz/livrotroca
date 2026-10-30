@@ -9,18 +9,14 @@ Projeto da disciplina de Gerência de Processo de Software (Unimontes, 2026).
 | --- | --- | --- |
 | E8-01 | Projeto Django + MySQL | `config/` |
 | E8-02 | Celery + Celery Beat e SMTP | `config/celery.py`, `emprestimos/tasks.py`, `config/settings.py` |
-| E8-05 | HTTPS/TLS em produção | `config/settings.py` (bloco "Segurança de transmissão") |
 | E1-01 | Cadastro com contato, localização e consentimento LGPD | `usuarios/forms.py`, `usuarios/views.py` |
 | E1-02 | Confirmação de e-mail | `usuarios/tokens.py`, `usuarios/views.py` |
 | E1-03 | Login (usuário ou e-mail) e logout | `usuarios/backends.py`, `usuarios/forms.py` |
 | E1-05 | Recuperação de senha (link de 30 min, uso único) | `usuarios/urls.py` |
 | E2-01 | Cadastro de livro (máx. 20 ativos) | `catalogo/` |
-| E2-03 | Editar, retirar e republicar livro | `catalogo/views.py` |
 | E3-01 | Busca por título ou autor | `catalogo/views.py` |
-| E4-01 | Solicitar empréstimo ou doação | `emprestimos/servicos.py` |
-| E4-02 | Aprovar ou recusar, com e-mail | `emprestimos/servicos.py` |
-| E5-01 | Prazo padrão de 14 dias | `emprestimos/servicos.py` |
-| E4-06 | Confirmar entrega de doação | `emprestimos/servicos.py` |
+
+Gerenciar livro, empréstimo, prazo e doação ficam para a Sprint 2. HTTPS (E8-05) fica para a Sprint 5, junto do deploy.
 
 ## Como rodar (Windows)
 
@@ -60,11 +56,3 @@ A tarefa de teste `verificar_agendador` roda a cada 15 minutos. As tarefas de ex
 
 No `.env`, troque `EMAIL_BACKEND` por `django.core.mail.backends.smtp.EmailBackend` e preencha `EMAIL_HOST_USER` e `EMAIL_HOST_PASSWORD`.
 No Gmail, use uma "senha de app", não a senha da conta.
-
-## Produção com HTTPS (E8-05)
-
-Com `DEBUG=False`, o projeto redireciona para HTTPS, usa cookies seguros e ativa HSTS.
-Para publicar (por exemplo no PythonAnywhere, que já oferece HTTPS):
-
-1. Configure `DEBUG=False`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` e `SITE_URL` no `.env` do servidor.
-2. Rode `python manage.py collectstatic` e `python manage.py check --deploy`.

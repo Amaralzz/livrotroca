@@ -7,23 +7,14 @@
 <dl class="ficha">
     <dt>Modalidade</dt><dd>{{ livro.get_modalidade_display }}</dd>
     <dt>Situação</dt><dd>{{ livro.get_status_display }}</dd>
-    {% if user.is_authenticated %}<dt>Conservação</dt><dd>{{ livro.get_conservacao_display }}</dd>{% endif %}
     <dt>Localização</dt><dd>{{ livro.dono.get_localizacao_display }}</dd>
-    <dt>Anunciado por</dt><dd><a href="{% url 'perfil' livro.dono.username %}">{{ livro.dono.username }}</a></dd>
+    <dt>Anunciado por</dt><dd>{{ livro.dono.username }}</dd>
 </dl>
 
 {% if eh_dono %}
-    <a class="botao secundario" href="{% url 'catalogo:meus' %}">Gerenciar em Meus livros</a>
-{% elif pode_solicitar %}
-    <form method="post" action="{% url 'emprestimos:solicitar' livro.pk %}">
-        {% csrf_token %}
-        <button type="submit" class="botao">{% if livro.eh_doacao %}Pedir doação{% else %}Pedir emprestado{% endif %}</button>
-    </form>
-    <p class="dica">{% if livro.eh_doacao %}O doador vai aprovar o pedido e combinar a entrega com você.{% else %}O dono aprova o pedido. O prazo é de 14 dias a partir da aprovação.{% endif %}</p>
+    <a class="botao secundario" href="{% url 'catalogo:meus' %}">Ver em Meus livros</a>
 {% elif not user.is_authenticated %}
-    <a class="botao" href="{% url 'entrar' %}?next={{ request.path|urlencode }}">Entre para pedir este livro</a>
-    <p class="dica">Ainda não tem conta? <a href="{% url 'criar_usuario' %}">Cadastre-se</a> para ver a conservação e pedir livros.</p>
-{% else %}
-    <p class="aviso">Este livro não está disponível no momento.</p>
+    <p class="dica">Ainda não tem conta? <a href="{% url 'criar_usuario' %}">Cadastre-se</a> para anunciar os seus livros.</p>
 {% endif %}
+<p><a href="{% url 'catalogo:busca' %}">Voltar para a busca</a></p>
 {% endblock %}

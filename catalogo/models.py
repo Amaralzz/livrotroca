@@ -37,7 +37,6 @@ class Livro(models.Model):
         RETIRADO = "retirado", "Anúncio retirado"
 
     STATUS_ATIVOS = (Status.DISPONIVEL, Status.RESERVADO, Status.EMPRESTADO, Status.EM_ATRASO)
-    STATUS_EDITAVEIS = (Status.DISPONIVEL, Status.RETIRADO)
 
     dono = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="livros"
@@ -61,20 +60,6 @@ class Livro(models.Model):
 
     def __str__(self):
         return f"{self.titulo} ({self.autor})"
-
-    @property
-    def pode_editar(self):
-        """E2-03: edição bloqueada durante empréstimo ou reserva."""
-        return self.status in self.STATUS_EDITAVEIS
-
-    @property
-    def pode_retirar(self):
-        """E2-03: só livros disponíveis podem ter o anúncio retirado."""
-        return self.status == self.Status.DISPONIVEL
-
-    @property
-    def eh_doacao(self):
-        return self.modalidade == self.Modalidade.DOACAO
 
     @classmethod
     def limite_atingido(cls, usuario):

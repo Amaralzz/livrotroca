@@ -1,13 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-
-from catalogo.models import Livro
 
 from .forms import ReenvioConfirmacaoForm, RegistroForm
 from .tokens import gerador_token_ativacao
@@ -83,13 +81,3 @@ def ativar_conta(request, uidb64, token):
 
     return render(request, "usuarios/ativacao_invalida.html", status=400)
 
-
-def perfil(request, username):
-    """Perfil público: livros anunciados e histórico de doações (E4-06 / RF09)."""
-    pessoa = get_object_or_404(User, username=username, is_active=True)
-    contexto = {
-        "pessoa": pessoa,
-        "anunciados": Livro.objects.visiveis().filter(dono=pessoa),
-        "doacoes": pessoa.livros.filter(status=Livro.Status.DOADO),
-    }
-    return render(request, "usuarios/perfil.html", contexto)
