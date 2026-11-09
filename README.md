@@ -1,7 +1,7 @@
 # LivroTroca
 
 Plataforma P2P de empréstimo e doação de livros entre estudantes da Unimontes e vizinhos de Montes Claros.
-Projeto da disciplina de Gerência de Processo de Software (Unimontes, 2026).
+Projeto da disciplina de Engenharia de Software (Unimontes, 2026).
 
 ## Sprint 1 (06/10 a 06/11/2026)
 
