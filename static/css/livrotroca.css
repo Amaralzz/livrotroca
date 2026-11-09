@@ -1,0 +1,124 @@
+/* LivroTroca · estilo base mobile-first (Seção 4.1 da ERS) */
+:root {
+    --verde: #1d2c24;
+    --verde-claro: #2b4033;
+    --dourado: #c3872e;
+    --creme: #f1e8d8;
+    --cartao: #e7dcc6;
+    --borda: #d6c7a8;
+    --texto: #1d2c24;
+    --suave: #5d6a62;
+    --vermelho: #b3261e;
+    --vermelho-fundo: #fbe9e7;
+    --raio: 10px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--creme);
+    color: var(--texto);
+    line-height: 1.5;
+    padding-bottom: 72px; /* espaço para a barra de abas */
+}
+
+a { color: var(--verde-claro); }
+
+.topo {
+    background: var(--verde);
+    color: var(--creme);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+}
+.topo a, .topo span, .topo .link { color: var(--creme); text-decoration: none; margin-left: 12px; }
+.marca { font-family: Georgia, serif; font-weight: bold; font-size: 1.25rem; margin-left: 0 !important; }
+
+.conteudo { max-width: 640px; margin: 0 auto; padding: 16px; }
+
+h1 { font-family: Georgia, serif; font-size: 1.5rem; margin: 8px 0 12px; }
+h2 { font-size: 1.05rem; margin: 24px 0 8px; text-transform: uppercase; letter-spacing: .04em; color: var(--suave); }
+
+.abas {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: space-around;
+    background: var(--verde); padding: 10px 0;
+}
+.abas a { color: var(--creme); text-decoration: none; font-size: .9rem; }
+
+/* Formulários */
+.formulario p { margin: 0 0 14px; }
+.formulario label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 4px; }
+input[type=text], input[type=email], input[type=password], input[type=search], select {
+    width: 100%; padding: 10px 12px; font-size: 1rem;
+    border: 1px solid var(--borda); border-radius: var(--raio); background: #f7f0e2;
+}
+.formulario input[type=checkbox] { margin-right: 8px; }
+.formulario p:has(input[type=checkbox]) label { display: inline; font-weight: 400; }
+.formulario div[id] { display: flex; flex-wrap: wrap; gap: 8px; }
+.formulario div[id] label { font-weight: 400; background: #f7f0e2; border: 1px solid var(--borda);
+    border-radius: var(--raio); padding: 8px 12px; margin: 0; }
+.helptext, .dica { display: block; font-size: .85rem; color: var(--suave); }
+.errorlist { color: var(--vermelho); padding-left: 18px; margin: 4px 0; font-size: .9rem; }
+
+/* Botões */
+.botao, button.botao {
+    display: inline-block; width: 100%; text-align: center;
+    background: var(--dourado); color: var(--verde); font-weight: 700;
+    border: 0; border-radius: var(--raio); padding: 12px; font-size: 1rem;
+    text-decoration: none; cursor: pointer;
+}
+.botao.secundario { background: transparent; border: 1px solid var(--verde); }
+button.link { background: none; border: 0; padding: 0; color: var(--verde-claro); text-decoration: underline; cursor: pointer; font: inherit; }
+form.inline { display: inline; }
+
+/* Busca */
+.busca { display: flex; gap: 8px; }
+.busca button { width: auto; padding: 0 16px; }
+.contador { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--suave); }
+
+/* Cartões de livro */
+.cartao {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--cartao); border: 1px solid var(--borda); border-radius: var(--raio);
+    padding: 12px; margin-bottom: 10px; color: inherit; text-decoration: none;
+}
+.capa { width: 42px; height: 56px; flex: none; border-radius: 4px; background: linear-gradient(135deg, var(--verde-claro), var(--verde)); }
+.corpo, .cartao > div:last-child { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.titulo { font-family: Georgia, serif; }
+.autor { font-style: italic; color: var(--suave); font-size: .9rem; }
+.etiquetas { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 4px; font-size: .75rem; }
+.etiqueta { text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 4px; background: #d9e5dc; color: var(--verde); }
+.etiqueta.doacao { background: #f5e3c4; color: #8a5a12; }
+.etiqueta.status-reservado, .etiqueta.status-emprestado { background: transparent; border: 1px dashed var(--dourado); color: #8a5a12; }
+.etiqueta.status-em_atraso { background: var(--vermelho-fundo); border: 1px solid var(--vermelho); color: var(--vermelho); }
+.etiqueta.status-doado, .etiqueta.status-retirado { background: #e2e2e2; color: #555; }
+.local { color: var(--suave); }
+.acoes { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; font-size: .9rem; }
+.prazo { margin: 6px 0 0; font-weight: 600; }
+.contato { margin: 6px 0 0; font-size: .9rem; }
+
+/* Ficha do livro */
+.ficha { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 16px 0; }
+.ficha dt { color: var(--suave); }
+.ficha dd { margin: 0; }
+
+/* Perfil */
+.perfil { display: flex; gap: 12px; align-items: center; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--dourado); color: var(--verde);
+    display: grid; place-items: center; font-weight: 700; }
+
+/* Mensagens */
+.mensagens { list-style: none; padding: 0; margin: 0 0 12px; }
+.mensagem { padding: 10px 12px; border-radius: var(--raio); margin-bottom: 8px; background: #d9e5dc; }
+.mensagem.error { background: var(--vermelho-fundo); color: var(--vermelho); }
+.aviso { background: #f5e3c4; padding: 10px 12px; border-radius: var(--raio); }
+.vazio { color: var(--suave); }
+.paginacao { display: flex; justify-content: space-between; margin: 16px 0; font-size: .9rem; }
+
+@media (min-width: 720px) {
+    .botao, button.botao { width: auto; padding: 12px 24px; }
+}

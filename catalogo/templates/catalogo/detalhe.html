@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}{{ livro.titulo }} · LivroTroca{% endblock %}
+{% block conteudo %}
+<h1>{{ livro.titulo }}</h1>
+<p class="autor">{{ livro.autor }}</p>
+
+<dl class="ficha">
+    <dt>Modalidade</dt><dd>{{ livro.get_modalidade_display }}</dd>
+    <dt>Situação</dt><dd>{{ livro.get_status_display }}</dd>
+    <dt>Localização</dt><dd>{{ livro.dono.get_localizacao_display }}</dd>
+    <dt>Anunciado por</dt><dd>{{ livro.dono.username }}</dd>
+</dl>
+
+{% if eh_dono %}
+    <a class="botao secundario" href="{% url 'catalogo:meus' %}">Ver em Meus livros</a>
+{% elif not user.is_authenticated %}
+    <p class="dica">Ainda não tem conta? <a href="{% url 'criar_usuario' %}">Cadastre-se</a> para anunciar os seus livros.</p>
+{% endif %}
+<p><a href="{% url 'catalogo:busca' %}">Voltar para a busca</a></p>
+{% endblock %}

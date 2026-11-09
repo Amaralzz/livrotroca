@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block titulo %}Buscar livros · LivroTroca{% endblock %}
+{% block conteudo %}
+<h1>Buscar livros</h1>
+<form method="get" class="busca" role="search">
+    <input type="search" name="q" value="{{ q }}" placeholder="Título, autor..." aria-label="Buscar por título ou autor">
+    <button type="submit" class="botao">Buscar</button>
+</form>
+<p class="contador">{{ pagina.paginator.count }} resultado{{ pagina.paginator.count|pluralize }}</p>
+{% for livro in pagina %}
+    {% include "catalogo/_cartao_livro.html" %}
+{% empty %}
+    <p class="vazio">Nenhum livro encontrado{% if q %} para "{{ q }}"{% endif %}.</p>
+{% endfor %}
+{% include "_paginacao.html" %}
+{% endblock %}
